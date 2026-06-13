@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Invoice Generator | SoloForge</title>
+<meta name="description" content="Generate professional freelance invoices instantly. Free, no signup. Download as PDF or print.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a1a2e);min-height:100vh;color:#e2e8f0;line-height:1.6}
+.container{max-width:700px;margin:0 auto;padding:2rem 1.5rem}
+h1{text-align:center;font-size:2rem;background:linear-gradient(135deg,#ff6b35,#ff8c00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:2rem}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;margin-bottom:1.5rem}
+.card h3{color:#ff8c00;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.85rem;color:#94a3b8;margin-bottom:.3rem}
+.form-group input,.form-group textarea{width:100%;padding:.7rem 1rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:.95rem}
+.form-group textarea{resize:vertical;min-height:60px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.preview{background:#fff;color:#1a1a2e;border-radius:16px;padding:2.5rem;margin:1.5rem 0;font-size:.9rem}
+.preview h2{color:#1a1a2e;font-size:1.4rem;margin-bottom:1rem}
+.preview .header-row{display:flex;justify-content:space-between;margin-bottom:2rem}
+.preview table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+.preview table th{background:#f0f0f0;padding:.6rem;text-align:left}
+.preview table td{padding:.6rem;border-bottom:1px solid #e0e0e0}
+.preview .total{text-align:right;font-size:1.3rem;font-weight:700;margin-top:1rem}
+.preview .notes{color:#666;font-size:.8rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e0e0e0}
+.cta-box{background:linear-gradient(135deg,#ff6b35,#ff4500);border-radius:16px;padding:2rem;text-align:center;margin:3rem 0}
+.cta-box h3{color:#fff}.cta-box p{color:rgba(255,255,255,.8)}
+.btn{display:inline-block;padding:.8rem 2rem;background:#fff;color:#ff4500;border-radius:10px;font-weight:700;text-decoration:none;margin-top:.5rem}
+.btn-outline{border:2px solid #ff6b35;color:#ff6b35;padding:.6rem 1.5rem;border-radius:10px;text-decoration:none;margin:0 .3rem}
+footer{text-align:center;color:#64748b;padding:2rem;font-size:.8rem}
+@media print{body>*:not(.preview){display:none}.preview{box-shadow:none;margin:0;padding:0}}
+</style>
+</head>
+<body>
+<div class="container">
+<nav style="text-align:center;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:2rem">
+<a href="/" style="color:#ff8c00;text-decoration:none;font-weight:700;margin:0 1rem">Calculator</a>
+<a href="/invoice-generator.html" style="color:#94a3b8;text-decoration:none;margin:0 1rem">Invoice</a>
+<a href="/quote-estimator.html" style="color:#94a3b8;text-decoration:none;margin:0 1rem">Quote</a>
+<a href="/tax-calculator.html" style="color:#94a3b8;text-decoration:none;margin:0 1rem">Tax</a>
+<a href="/blog/" style="color:#94a3b8;text-decoration:none;margin:0 1rem">Blog</a>
+</nav>
+
+<h1>Free Invoice Generator</h1>
+<p class="subtitle">Fill in the details. Print or save as PDF. No signup.</p>
+
+<div class="card">
+<h3>Your Info</h3>
+<div class="row">
+<div class="form-group"><label>Your Name / Business</label><input id="fromName" placeholder="SoloForge Design" oninput="update()"></div>
+<div class="form-group"><label>Your Email</label><input id="fromEmail" placeholder="you@email.com" oninput="update()"></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Client Info</h3>
+<div class="row">
+<div class="form-group"><label>Client Name / Company</label><input id="toName" placeholder="Acme Corp" oninput="update()"></div>
+<div class="form-group"><label>Client Email</label><input id="toEmail" placeholder="client@email.com" oninput="update()"></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Invoice Details</h3>
+<div class="row">
+<div class="form-group"><label>Invoice #</label><input id="invNum" value="INV-2026-001" oninput="update()"></div>
+<div class="form-group"><label>Date</label><input id="invDate" type="date" oninput="update()"></div>
+</div>
+<div class="form-group"><label>Service Description</label><textarea id="desc" oninput="update()">Website design and development - 5 pages, responsive, CMS integration</textarea></div>
+<div class="row">
+<div class="form-group"><label>Amount (USD)</label><input id="amount" type="number" value="2500" oninput="update()"></div>
+<div class="form-group"><label>Due Date</label><input id="dueDate" type="date" oninput="update()"></div>
+</div>
+<div class="form-group"><label>Notes</label><input id="notes" placeholder="Payment via bank transfer or PayPal" oninput="update()"></div>
+</div>
+
+<div class="preview" id="preview">
+<h2>INVOICE</h2>
+<div class="header-row">
+<div><strong id="pvFrom">SoloForge Design</strong><br><span id="pvFromEmail">you@email.com</span></div>
+<div><strong>Invoice #</strong> <span id="pvNum">INV-2026-001</span><br><strong>Date:</strong> <span id="pvDate"></span><br><strong>Due:</strong> <span id="pvDue"></span></div>
+</div>
+<p><strong>Bill To:</strong><br><span id="pvTo">Acme Corp</span><br><span id="pvToEmail">client@email.com</span></p>
+<table><tr><th>Description</th><th>Amount</th></tr><tr><td id="pvDesc"></td><td id="pvAmount">$2,500.00</td></tr></table>
+<div class="total">Total: <span id="pvTotal">$2,500.00</span></div>
+<div class="notes" id="pvNotes">Payment via bank transfer or PayPal</div>
+</div>
+
+<div style="text-align:center">
+<button onclick="window.print()" class="btn-outline">Print / Save PDF</button>
+</div>
+
+<div class="cta-box">
+<h3>Need the Full Toolkit?</h3>
+<p>Invoice tracker, pricing calculator, client email templates + more.</p>
+<a href="https://forgesolo.gumroad.com/l/slevo" class="btn">Get the Toolkit $14.99</a>
+</div>
+</div>
+<footer>Built by <a href="https://forgesolo.gumroad.com" style="color:#ff8c00">SoloForge</a></footer>
+<script>
+function update(){
+let d=new Date();document.getElementById('pvDate').textContent=d.toISOString().split('T')[0]
+let due=document.getElementById('dueDate').value;document.getElementById('pvDue').textContent=due||'N/A'
+document.getElementById('pvFrom').textContent=document.getElementById('fromName').value||'Your Name'
+document.getElementById('pvFromEmail').textContent=document.getElementById('fromEmail').value||''
+document.getElementById('pvTo').textContent=document.getElementById('toName').value||'Client Name'
+document.getElementById('pvToEmail').textContent=document.getElementById('toEmail').value||''
+document.getElementById('pvNum').textContent=document.getElementById('invNum').value||''
+document.getElementById('pvDesc').textContent=document.getElementById('desc').value||''
+let amt=parseFloat(document.getElementById('amount').value)||0
+document.getElementById('pvAmount').textContent='$'+amt.toFixed(2)
+document.getElementById('pvTotal').textContent='$'+amt.toFixed(2)
+document.getElementById('pvNotes').textContent=document.getElementById('notes').value||''
+}
+document.getElementById('invDate').valueAsDate=new Date()
+update()
+</script>
+</body>
+</html>
